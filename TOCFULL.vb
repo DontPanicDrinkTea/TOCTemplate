@@ -1,6 +1,3 @@
-# TOCTemplate
-TOC template
-
 'TOC TEMPLATE
 Option Explicit
  
