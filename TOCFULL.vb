@@ -99,3 +99,43 @@ Sub TOCFull(list As Variant, tprov As String, tcity As String, ttocpdf As String
     Next m
     Workbooks(ttocxl).Close SaveChanges:=True
 End Sub
+
+
+
+''EXTRA
+SubPrintSupDocs()
+Dim headings_ws as worksheet, toc_ws as worksheet
+
+Dim i as integer, j as integer, k as integer, l as integer
+Dim printdocs() as string
+Dim headingsrng as range
+Dim pstring as string
+Dim filepath as range
+Dim docnames as range
+
+Set headings_ws = thisworkbook.worksheets("AllHeadings")
+Set toc_ws = thisworkbook.worksheets("TOC")
+Set headingsrng = headings_ws.range("Table3").Columns(1)
+
+i = toc_ws.Range("B11").End(xlDown).Row
+Set docnames = toc_ws.Range("B11:B" & i)
+for j = 1 to i - 10
+	for k = 1 to 28
+		if docnames.cells(j).value = headingsrng.cells(k).value then
+			filepath = headingsrng.cells(k).offset(0,2)
+			If pstring = "" then
+				pstring = filepath.value
+			Elseif pstring <> "" then
+				pstring = pstring & "," & filepath.value
+			End if
+		End if
+	next k
+next j
+
+printdocs() = split(pstring, ",")
+
+    For l = LBound(printdocs) To UBound(printdocs)
+        PrintFile (printdocs(l))
+        Application.Wait (Now + TimeValue("0:00:10"))
+    Next l
+End Sub
