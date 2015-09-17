@@ -74,7 +74,9 @@ Sub TOCFull(list As Variant, tprov As String, tcity As String, ttocpdf As String
                 End If
             End If
         Next k
-        i = i + 1
+        If drng.Value <> "" Then
+            i = i + 1
+        End If
     Next j
     
     printdocs() = Split(pstring, ",")
@@ -97,8 +99,10 @@ Sub TOCFull(list As Variant, tprov As String, tcity As String, ttocpdf As String
         PrintFile (printdocs(m))
         Application.Wait (Now + TimeValue("0:00:10"))
     Next m
-    Workbooks(ttocxl).Close SaveChanges:=True
+
 End Sub
+
+
 
 
 
